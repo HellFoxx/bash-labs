@@ -5,19 +5,19 @@
 int main(int argc, char *argv[]) {
 
     if (argc != 3) {
-        printf("Error! Wrong number of params\n");
+        fputs("Error! Wrong number of params\n", stderr);
         return 1;   
     }
 
     FILE *fileFrom = fopen(argv[1], "r");
     if (fileFrom == NULL) {
-        printf("Error! File1 not found\n");
+        fputs("Error! File1 not found\n", stderr);
         return 1;
     }
 
     FILE *fileTo = fopen(argv[2], "w");
     if (fileTo == NULL) {
-        printf("Error! File2 not found\n");
+        fputs("Error! File2 not found\n", stderr);
         return 1;
     }
 

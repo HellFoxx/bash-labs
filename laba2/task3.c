@@ -3,13 +3,13 @@
 int main(int argc[], char *argv[]) {
 
     if (argv[1] == NULL) {
-        printf("Error! No params\n");
+        fputs("Error! No params\n", stderr);
         return 1;   
     }
 
     FILE *file = fopen(argv[1], "w");
     if (file == NULL) {
-        printf("Error! File not found\n");
+        fputs("Error! File not found\n", stderr);
         return 1;
     }
 

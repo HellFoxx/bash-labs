@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     struct dirent *dir;
     d = opendir(argv[1]);
     if (!d) {
-        printf("Error! No such directory");
+        fputs("Error! No such directory\n", stderr);
         return 1;
     }
 
@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     closedir(d);
 
     puts("\n ----- root ----- \n");
-    d = opendir("..");
+    d = opendir("/");
     while ((dir = readdir(d)) != NULL)
         puts(dir->d_name);
     closedir(d);
