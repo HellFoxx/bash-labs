@@ -5,8 +5,8 @@
 
 int main(int argc, char *argv[]) {
 
-    fputs("1st param - path to file", stderr);
-    fputs("2nd param - N lines (N = 0 : display all lines)", stderr);
+    fputs("1st param - path to file\n", stderr);
+    fputs("2nd param - N lines (N = 0 : display all lines)\n", stderr);
 
     if (argc != 3) {
         fputs("Error! Not enough params\n", stderr);
