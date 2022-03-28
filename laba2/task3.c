@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 
 int main(int argc[], char *argv[]) {
 
@@ -15,6 +16,8 @@ int main(int argc[], char *argv[]) {
 
     while (1) {
         char symbol = getc(stdin);
+        if (iscntrl(symbol))
+            continue;
         if (symbol == '\e')
             break;
         fputc(symbol, file);

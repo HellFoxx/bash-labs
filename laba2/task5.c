@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <ctype.h>
 
 int main(int argc, char *argv[]) {
 
@@ -21,8 +22,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    while (!feof(fileFrom))
-        fputc(fgetc(fileFrom), fileTo);
+    while (!feof(fileFrom)) {
+        char c = fgetc(fileFrom);
+        if (isprint(c) || c == '\n')
+            fputc(c, fileTo);
+        else
+            fprintf(stderr, "Warning! Character %c is not printable\n", c);
+    }
 
     struct stat st;
     stat(argv[1], &st);
