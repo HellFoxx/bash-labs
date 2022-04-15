@@ -5,6 +5,7 @@
 #include <math.h>
 #include <string.h>
 #include <dirent.h>
+#include <errno.h>
 
 void calcTaylorRow(char *filepath) {
     FILE *f = fopen(filepath, "r+t");
@@ -87,8 +88,16 @@ int main(int argc, char* argv[]) {
                     fprintf(f, "%d\t%.15f\n", getpid(), getTaylorItem(n, i, j));
                     fclose(f);
                     exit(0);
-                default:
-                    waitpid(pid, 0);
+                //default:
+                    //waitpid(pid, 0);
+            }
+        }
+
+        while (1) {
+            if (wait(0) == -1) {
+                if (errno == ECHILD)
+                    break;
+                fprintf(stderr, "Error while waiting child proc!\n");    
             }
         }
 
