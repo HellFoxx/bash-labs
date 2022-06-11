@@ -80,14 +80,14 @@ char* now() {
     return date;
 }
 
-void logger(int childIndex, char *status, int sigNum) {
+void logger(char* procName, char *status, int sigNum) {
     printf(
-        "%-5d %5d %5d %s - CHILD%d %3s SIGUSR%d\n",
+        "%-5d %5d %5d %s - %s %3s SIGUSR%d\n",
         mesNum++,
         getpid(),
         getppid(),
         now(),
-        childIndex,
+        procName,
         status,
         sigNum
     );
@@ -102,17 +102,25 @@ int getChildIndex(pid_t childPid) {
 }
 
 void parentSigHandle(int sig, siginfo_t *sigInfo, void *_) {
-    logger(getChildIndex(sigInfo->si_pid), "put", 2);
-    printf("PARENT get %s from CHILD%d\n", (sig == 12 ? "SIGUSR2" : ""), getChildIndex(sigInfo->si_pid));
     
+    //printf("PARENT get %s from CHILD%d\n", (sig == 12 ? "SIGUSR2" : ""), getChildIndex(sigInfo->si_pid));
+    char* logg;
+    asprintf(&logg, "get from CHILD-%d", sigInfo->si_pid);
+    logger("PARENT", logg, 2);
 
     struct timespec t = {.tv_nsec = 100e6, .tv_sec = 0};
     nanosleep(&t, NULL);
 
     kill(0, SIGUSR1);
+    logger("PARENT", "put to every proc", 1);
 }
 
 void childSigHandle(int sig) {
-    logger(childIndex, "get", 1);
+    char* name;
+    asprintf(&name, "CHILD-%d", getpid());
+    logger(name, "get", 1);
+
     kill(getppid(), SIGUSR2);
+
+    logger(name, "put", 2);
 }
